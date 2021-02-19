@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Pollen\Pdf\Drivers;
 
-use Pollen\Pdf\Controller\PdfControllerInterface;
-
 interface DriverInterface
 {
     /**
@@ -37,22 +35,22 @@ interface DriverInterface
     public function output(): string;
 
     /**
-     * Définition de la liste des options
+     * Définition des options de configuration
      *
-     * @param array $params Liste des paramètres de configuration.
+     * @param array $config
      *
      * @return static
      */
-    public function setConfig(array $params): DriverInterface;
+    public function setConfig(array $config): DriverInterface;
 
     /**
      * Définition du controleur associé.
      *
-     * @param PdfControllerInterface $controller
+     * @param callable $renderer
      *
      * @return DriverInterface
      */
-    public function setController(PdfControllerInterface $controller): DriverInterface;
+    public function setRenderer(callable $renderer): DriverInterface;
 
     /**
      * Récupération de la sortie stream du PDF.

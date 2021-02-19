@@ -4,20 +4,17 @@ declare(strict_types=1);
 
 namespace Pollen\Pdf\Drivers;
 
-use Dompdf\Dompdf as BaseDompdf;
+use Dompdf\Dompdf;
 use Dompdf\Options;
 
-/**
- * @see https://github.com/dompdf/dompdf/wiki/Usage
- */
 class DompdfDriver extends AbstractDriver
 {
     /**
      * @inheritDoc
      */
-    public function generate(): Adapter
+    public function generate(): DriverInterface
     {
-        $html = $this->controller->html();
+        $html = call_user_func($this->renderer);
 
         $this->generator()->loadHtml($html);
         $this->generator()->render();
@@ -28,12 +25,12 @@ class DompdfDriver extends AbstractDriver
     /**
      * {@inheritDoc}
      *
-     * @return BaseDompdf
+     * @return Dompdf
      */
-    public function generator(): BaseDompdf
+    public function generator(): object
     {
         if ($this->generator === null) {
-            $this->generator = new BaseDompdf();
+            $this->generator = new Dompdf();
         }
 
         return $this->generator;
@@ -52,19 +49,19 @@ class DompdfDriver extends AbstractDriver
     /**
      * @inheritDoc
      */
-    public function setConfig(array $params): DriverInterface
+    public function setConfig(array $config): DriverInterface
     {
-        if ($options = $params['options'] ?? []) {
+        if ($options = $config['options'] ?? []) {
             $this->generator()->setOptions(new Options($options));
         }
 
-        if ($basePath = $params['base_path'] ?? '') {
+        if ($basePath = $config['base_path'] ?? '') {
             $this->generator()->setBasePath($basePath);
         }
 
-        if (isset($params['size']) || isset($params['orientation'])) {
-            $size = $params['size'] ?? 'A4';
-            $orientation = $params['orientation'] ?? 'portrait';
+        if (isset($params['size']) || isset($config['orientation'])) {
+            $size = $config['size'] ?? 'A4';
+            $orientation = $config['orientation'] ?? 'portrait';
             $this->generator()->setPaper($size, $orientation);
         }
 
