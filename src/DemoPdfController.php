@@ -19,6 +19,6 @@ final class DemoPdfController extends AbstractPdfController
      */
     public function viewEngineDirectory(): string
     {
-        return __DIR__ . '/../resources/views/';
+        return realpath(dirname(__DIR__) . '/resources/');
     }
 }
