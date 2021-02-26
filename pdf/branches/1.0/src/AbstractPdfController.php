@@ -67,7 +67,7 @@ abstract class AbstractPdfController extends BaseController implements PdfContro
     public function defaultDriverOptions(): array
     {
         return [
-            'base_path'   => $this->request()->getDocumentRoot(),
+            'base_path'   => $this->httpRequest()->getDocumentRoot(),
             'orientation' => 'portrait',
             'size'        => 'A4',
             'options'     => [
