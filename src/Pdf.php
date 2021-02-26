@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace Pollen\Pdf;
 
 use Pollen\Support\Concerns\ConfigBagAwareTrait;
-use Pollen\Support\Concerns\ContainerAwareTrait;
+use Pollen\Support\Proxy\ContainerProxy;
 use Psr\Container\ContainerInterface as Container;
 
 class Pdf implements PdfInterface
 {
     use ConfigBagAwareTrait;
-    use ContainerAwareTrait;
+    use ContainerProxy;
 
     /**
      * @param array $config
