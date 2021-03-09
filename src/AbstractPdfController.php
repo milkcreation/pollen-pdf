@@ -9,9 +9,9 @@ use Pollen\Http\StreamedResponse;
 use Pollen\Http\StreamedResponseInterface;
 use Pollen\Pdf\Drivers\DompdfDriver;
 use Pollen\Pdf\Drivers\DriverInterface;
-use Pollen\Routing\BaseController;
+use Pollen\Routing\BaseViewController;
 
-abstract class AbstractPdfController extends BaseController implements PdfControllerInterface
+abstract class AbstractPdfController extends BaseViewController implements PdfControllerInterface
 {
     /**
      * Instance du pilote de génération de PDF.
