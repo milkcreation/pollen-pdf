@@ -1,0 +1,68 @@
+// Variables
+@import "~pollen-solutions/partial/resources/assets/src/scss/variables";
+
+// Personnalisation
+.PdfViewer {
+  position:relative;
+}
+
+.PdfViewer-spinner {
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  display:none;
+
+  &[aria-hidden="false"] {
+    display:inherit;
+  }
+}
+
+.PdfViewer-canvas {
+  width: 100%;
+}
+
+.PdfViewer-nav {
+  text-align: center;
+  color:#333;
+  display:none;
+
+  &[aria-hidden="false"] {
+    display:inherit;
+  }
+}
+
+.PdfViewer-navFirst,
+.PdfViewer-navPrev,
+.PdfViewer-navNext,
+.PdfViewer-navLast {
+  button {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 2px;
+
+    line-height: 1;
+    background-color: #333;
+    color: #FFF;
+    border: solid 1px #333;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  &[aria-disabled="true"] {
+    button {
+      opacity: 0.1;
+      cursor: default;
+    }
+  }
+}
+
+.PdfViewer-page {
+  font-size:13px;
+
+  span + span::before {
+    content: "/";
+  }
+}
+
+

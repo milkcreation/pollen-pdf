@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Pollen\Pdf\Drivers;
+namespace Pollen\Pdf;
 
-interface DriverInterface
+interface PdfDriverInterface
 {
     /**
      * Résolution de la classe sous la forme d'un chaine de caractère.
@@ -18,7 +18,7 @@ interface DriverInterface
      *
      * @return static
      */
-    public function generate(): DriverInterface;
+    public function generate(): PdfDriverInterface;
 
     /**
      * Récupération du pilote génération de PDF.
@@ -41,16 +41,16 @@ interface DriverInterface
      *
      * @return static
      */
-    public function setConfig(array $config): DriverInterface;
+    public function setConfig(array $config): PdfDriverInterface;
 
     /**
      * Définition du controleur associé.
      *
      * @param callable $renderer
      *
-     * @return DriverInterface
+     * @return PdfDriverInterface
      */
-    public function setRenderer(callable $renderer): DriverInterface;
+    public function setRenderer(callable $renderer): PdfDriverInterface;
 
     /**
      * Récupération de la sortie stream du PDF.

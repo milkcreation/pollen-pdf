@@ -6,13 +6,15 @@ namespace Pollen\Pdf\Drivers;
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
+use Pollen\Pdf\AbstractPdfDriver;
+use Pollen\Pdf\PdfDriverInterface;
 
-class DompdfDriver extends AbstractDriver
+class DompdfDriver extends AbstractPdfDriver
 {
     /**
      * @inheritDoc
      */
-    public function generate(): DriverInterface
+    public function generate(): PdfDriverInterface
     {
         $html = call_user_func($this->renderer);
 
@@ -49,7 +51,7 @@ class DompdfDriver extends AbstractDriver
     /**
      * @inheritDoc
      */
-    public function setConfig(array $config): DriverInterface
+    public function setConfig(array $config): PdfDriverInterface
     {
         if ($options = $config['options'] ?? []) {
             $this->generator()->setOptions(new Options($options));

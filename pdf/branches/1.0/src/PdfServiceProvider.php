@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Pollen\Pdf;
 
 use Pollen\Container\BaseServiceProvider;
-use Pollen\Pdf\Drivers\DriverInterface;
+use Pollen\Partial\PartialManagerInterface;
 use Pollen\Pdf\Drivers\DompdfDriver;
+use Pollen\Pdf\Partial\PdfViewerDriver;
 
 class PdfServiceProvider extends BaseServiceProvider
 {
@@ -14,8 +15,9 @@ class PdfServiceProvider extends BaseServiceProvider
      * @var string[]
      */
     protected $provides = [
-        DriverInterface::class,
-        PdfInterface::class
+        PdfInterface::class,
+        PdfDriverInterface::class,
+        PdfViewerDriver::class
     ];
 
     /**
@@ -27,8 +29,15 @@ class PdfServiceProvider extends BaseServiceProvider
             return new Pdf([], $this->getContainer());
         });
 
-        $this->getContainer()->share(DriverInterface::class, function() {
+        $this->getContainer()->share(PdfDriverInterface::class, function() {
             return new DompdfDriver();
+        });
+
+        $this->getContainer()->add(PdfViewerDriver::class, function() {
+            return new PdfViewerDriver(
+                $this->getContainer()->get(PdfInterface::class),
+                $this->getContainer()->get(PartialManagerInterface::class)
+            );
         });
     }
 }
