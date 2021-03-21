@@ -8,14 +8,13 @@ use Pollen\Http\ResponseInterface;
 use Pollen\Http\StreamedResponse;
 use Pollen\Http\StreamedResponseInterface;
 use Pollen\Pdf\Drivers\DompdfDriver;
-use Pollen\Pdf\Drivers\DriverInterface;
 use Pollen\Routing\BaseViewController;
 
 abstract class AbstractPdfController extends BaseViewController implements PdfControllerInterface
 {
     /**
      * Instance du pilote de génération de PDF.
-     * @var DriverInterface
+     * @var PdfDriverInterface
      */
     protected $driver;
 
@@ -97,11 +96,11 @@ abstract class AbstractPdfController extends BaseViewController implements PdfCo
     /**
      * @inheritDoc
      */
-    public function driver(): DriverInterface
+    public function driver(): PdfDriverInterface
     {
         if ($this->driver === null) {
-            $this->driver = $this->containerHas(DriverInterface::class)
-                ? $this->containerGet(DriverInterface::class) : new DompdfDriver();
+            $this->driver = $this->containerHas(PdfDriverInterface::class)
+                ? $this->containerGet(PdfDriverInterface::class) : new DompdfDriver();
         }
 
         return $this->driver;
@@ -232,7 +231,7 @@ abstract class AbstractPdfController extends BaseViewController implements PdfCo
     /**
      * @inheritDoc
      */
-    public function setDriver(DriverInterface $driver): PdfControllerInterface
+    public function setDriver(PdfDriverInterface $driver): PdfControllerInterface
     {
         $this->driver = $driver;
 

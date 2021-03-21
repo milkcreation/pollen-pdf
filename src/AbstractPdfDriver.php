@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Pollen\Pdf\Drivers;
+namespace Pollen\Pdf;
 
 use StdClass;
 
-abstract class AbstractDriver implements DriverInterface
+abstract class AbstractPdfDriver implements PdfDriverInterface
 {
     /**
      * Instance du pilote de génération de PDF.
@@ -31,7 +31,7 @@ abstract class AbstractDriver implements DriverInterface
     /**
      * @inheritDoc
      */
-    public function generate(): DriverInterface
+    public function generate(): PdfDriverInterface
     {
         return $this;
     }
@@ -55,7 +55,7 @@ abstract class AbstractDriver implements DriverInterface
     /**
      * @inheritDoc
      */
-    public function setConfig(array $config): DriverInterface
+    public function setConfig(array $config): PdfDriverInterface
     {
         return $this;
     }
@@ -63,7 +63,7 @@ abstract class AbstractDriver implements DriverInterface
     /**
      * @inheritDoc
      */
-    public function setRenderer(callable $renderer): DriverInterface
+    public function setRenderer(callable $renderer): PdfDriverInterface
     {
         $this->renderer = $renderer;
 

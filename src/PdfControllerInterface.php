@@ -7,7 +7,6 @@ namespace Pollen\Pdf;
 use Pollen\Http\ResponseInterface;
 use Pollen\Http\StreamedResponseInterface;
 use Pollen\Routing\BaseViewController;
-use Pollen\Pdf\Drivers\DriverInterface;
 
 /**
  * @mixin BaseViewController
@@ -22,9 +21,9 @@ interface PdfControllerInterface
     /**
      * Récupération de l'instance du pilote de génération de PDF.
      *
-     * @return DriverInterface
+     * @return PdfDriverInterface
      */
-    public function driver(): DriverInterface;
+    public function driver(): PdfDriverInterface;
 
     /**
      * Récupération du nom de qualification du fichier PDF.
@@ -109,11 +108,11 @@ interface PdfControllerInterface
     /**
      * Définition du pilote de génération de PDF.
      *
-     * @param DriverInterface $driver
+     * @param PdfDriverInterface $driver
      *
      * @return static
      */
-    public function setDriver(DriverInterface $driver): PdfControllerInterface;
+    public function setDriver(PdfDriverInterface $driver): PdfControllerInterface;
 
     /**
      * Définition des options de configuration du pilote de génération de PDF.
