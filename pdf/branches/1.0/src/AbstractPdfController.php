@@ -8,9 +8,9 @@ use Pollen\Http\ResponseInterface;
 use Pollen\Http\StreamedResponse;
 use Pollen\Http\StreamedResponseInterface;
 use Pollen\Pdf\Drivers\DompdfDriver;
-use Pollen\Routing\BaseViewController;
+use Pollen\Routing\BaseController;
 
-abstract class AbstractPdfController extends BaseViewController implements PdfControllerInterface
+abstract class AbstractPdfController extends BaseController implements PdfControllerInterface
 {
     /**
      * Instance du pilote de génération de PDF.
@@ -28,7 +28,7 @@ abstract class AbstractPdfController extends BaseViewController implements PdfCo
      * Nom de qualification du fichier.
      * @var string
      */
-    protected $filename = 'file.pdf';
+    protected $filename = 'file';
 
     /**
      * Méthode de rappel du traitement de la requête.
@@ -73,24 +73,22 @@ abstract class AbstractPdfController extends BaseViewController implements PdfCo
                 'isPhpEnabled'         => true,
                 'isHtml5ParserEnabled' => true,
                 'isRemoteEnabled'      => true,
-            ]
+            ],
         ];
     }
 
     /**
      * Traitement de la requête HTTP.
      *
-     * @param array ...$args Liste des arguments passés en variable dans l'url
+     * @param array ...$args
      *
-     * @return static
+     * @return void
      */
-    protected function handle(...$args): PdfControllerInterface
+    protected function handle(...$args): void
     {
         if (is_callable(($handler = $this->handler))) {
             $handler($this, ...$args);
         }
-
-        return $this;
     }
 
     /**
@@ -144,7 +142,7 @@ abstract class AbstractPdfController extends BaseViewController implements PdfCo
     public function responseDefault($disposition = 'inline'): StreamedResponseInterface
     {
         $response = new StreamedResponse();
-        $disposition = $response->headers->makeDisposition($disposition, $this->getFilename());
+        $disposition = $response->headers->makeDisposition($disposition, $this->getFilename() . '.PDF');
         $response->headers->replace(
             [
                 'Content-Type'        => 'application/pdf',
@@ -172,7 +170,9 @@ abstract class AbstractPdfController extends BaseViewController implements PdfCo
      */
     public function responseDisplay(...$args): StreamedResponseInterface
     {
-        return $this->handle(...$args)->responseDefault();
+        $this->handle(...$args);
+
+        return $this->responseDefault();
     }
 
     /**
@@ -180,7 +180,9 @@ abstract class AbstractPdfController extends BaseViewController implements PdfCo
      */
     public function responseDownload(...$args): StreamedResponseInterface
     {
-        return $this->handle(...$args)->responseDefault('attachment');
+        $this->handle(...$args);
+
+        return $this->responseDefault('attachment');
     }
 
     /**
@@ -188,7 +190,9 @@ abstract class AbstractPdfController extends BaseViewController implements PdfCo
      */
     public function responseHtml(...$args): ResponseInterface
     {
-        return $this->response($this->handle(...$args)->getHtmlRenderer());
+        $this->handle(...$args);
+
+        return $this->response($this->getHtmlRenderer());
     }
 
     /**
@@ -261,7 +265,7 @@ abstract class AbstractPdfController extends BaseViewController implements PdfCo
     /**
      * @inheritDoc
      */
-    public function setStorageDisk(string /** FileSystem */$storageDisk): PdfControllerInterface
+    public function setStorageDisk(string /** FileSystem */ $storageDisk): PdfControllerInterface
     {
         $this->storageDisk = $storageDisk;
 
