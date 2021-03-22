@@ -6,10 +6,10 @@ namespace Pollen\Pdf;
 
 use Pollen\Http\ResponseInterface;
 use Pollen\Http\StreamedResponseInterface;
-use Pollen\Routing\BaseViewController;
+use Pollen\Routing\BaseController;
 
 /**
- * @mixin BaseViewController
+ * @mixin BaseController
  */
 interface PdfControllerInterface
 {

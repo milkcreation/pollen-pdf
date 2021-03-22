@@ -30,6 +30,7 @@
     "composer/composer": "^2.0",
     "composer/installers": "~1.0",
     "dompdf/dompdf": "^1.0.2",
+    "pollen-solutions/partial": "^1.0",
     "pollen-solutions/support": "^1.0"
   },
   "require-dev": {
@@ -46,10 +47,12 @@
     }
   },
   "suggest": {
-    "pollen-solutions/container" : "Pollen Container Component - PSR-11 ready Dependencies Injection Container",
-    "pollen-solutions/partial" : "Pollen Partial Component - Web Interfaces collection",
-    "pollen-solutions/routing" : "Pollen Routing Component - HTTP request mapping and HTTP response resolution",
-    "spatie/browsershot": "Convert a webpage to an image or pdf using headless Chrome"
+    "knplabs/knp-snappy": "Library allowing PDF generation from url (snapshot).",
+    "h4cc/wkhtmltopdf-i386": "WkhHtml 32 bit KnpSnappy dependency PDF generation.",
+    "h4cc/wkhtmltopdf-amd64": "WkhHtml 64 bit KnpSnappy dependency PDF generation.",
+    "pollen-solutions/container" : "Pollen Container Component - PSR-11 ready Dependencies Injection Container.",
+    "pollen-solutions/routing" : "Pollen Routing Component - HTTP request mapping and HTTP response resolution.",
+    "spatie/browsershot": "Convert a webpage to an image or pdf using headless Chrome."
   },
   "minimum-stability": "dev",
   "prefer-stable": true,

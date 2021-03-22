@@ -1,33 +1,13 @@
+/* global PdfjsWorkerSrc */
 'use strict'
-
-/**
- // webpack.config.js
- -----------------------------------------------------------------------------------------------------------------------
- module: {
-    rules: [
-      {
-        test: /\.worker\.(c|m)?js$/i,
-        loader: "worker-loader",
-        options: {
-          esModule: false,
-          inline: "fallback",
-          filename: "[name].js"
-        }
-      }
-    ]
-}
- -----------------------------------------------------------------------------------------------------------------------
- USAGE :
- import PdfViewer from 'pollen-pdf/resources/assets/src/js/partial/pdf-viewer.js'
- or
- import 'pollen-pdf/resources/assets/src/js/partial/pdf-viewer.js'
- */
 
 import * as pdfjs from 'pdfjs-dist'
 import PdfjsWorker from 'pdfjs-dist/build/pdf.worker.js'
 import Observer from '@pollen-solutions/support/resources/assets/src/js/mutation-observer'
 
-if (typeof window !== "undefined" && "Worker" in window) {
+if (PdfjsWorkerSrc !== undefined) {
+  pdfjs.GlobalWorkerOptions.workerSrc = PdfjsWorkerSrc
+} else if (typeof window !== "undefined" && "Worker" in window) {
   pdfjs.GlobalWorkerOptions.workerPort = new PdfjsWorker()
 }
 
@@ -114,6 +94,7 @@ class PdfViewer {
     this.pageTotal = 0
     this.scale = 1.0
     this.cssUnits = 96 / 72
+    this.minWidth = 720
 
     this.nav = {}
     this.pageInfos = {}
@@ -494,16 +475,20 @@ class PdfViewer {
    * @async
    */
   async _doPdfDocPageRender(pdfPage) {
-    const pageViewport = pdfPage.getViewport({scale: this.scale}),
-        renderViewport = pdfPage.getViewport({scale: this.el.clientWidth / pageViewport.width}),
+    let pageViewport = pdfPage.getViewport({scale: this.scale}),
         renderContext = this.canvas.getContext('2d')
 
-    this.canvas.width = renderViewport.width || renderViewport.viewBox[2]
-    this.canvas.height = renderViewport.height || renderViewport.viewBox[3]
+    if (this.minWidth !== 0) {
+      const minWidth = this.el.clientWidth > this.minWidth ? this.el.clientWidth : this.minWidth
+      pageViewport = pdfPage.getViewport({scale: minWidth / pageViewport.width})
+    }
+
+    this.canvas.width = pageViewport.width || pageViewport.viewBox[2]
+    this.canvas.height = pageViewport.height || pageViewport.viewBox[3]
 
     const renderTask = pdfPage.render({
       canvasContext: renderContext,
-      viewport: renderViewport
+      viewport: pageViewport
     })
 
     await renderTask.promise

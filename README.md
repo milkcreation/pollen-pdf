@@ -126,3 +126,69 @@ $router->sendResponse($response);
 // Trigger the terminate event
 $router->terminateEvent($request, $response);
 ```
+
+## PdfViewer
+
+### Step 1 - Register PdfjsWorkerSrc (use CDN Url or local url @see Step#2)
+
+CDN Urls :
+- https://cdn.jsdelivr.net/npm/pdfjs-dist@2.7.570/build/pdf.worker.min.js
+- https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.7.570/pdf.worker.min.js
+- https://unpkg.com/pdfjs-dist@2.7.570/build/pdf.worker.min.js
+
+```javascript
+// Insert before app.js
+<script type="text/javascript">
+  const PdfjsWorkerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@2.7.570/build/pdf.worker.min.js';
+</script>
+```
+
+### Step 2 - Generate Webpack Worker (optional)
+
+If inline fallback is enabled, PdfjsWorkerSrc declaration being optionnal
+
+```js
+// webpack.config.js
+{
+  // ...
+  module: {
+    rules: [
+      // ...
+      {
+        test: /\.worker\.(c|m)?js$/i,
+        loader: "worker-loader",
+        options: {
+          esModule: false,
+          // Optional
+          // inline: "fallback", 
+          // filename: "[name].js"
+        }
+      }
+      // ...
+    ]
+  }
+  // ...
+}
+```
+
+### Step 3 - PdfViewer implementation
+
+#### Automatic (recommended) 
+
+All DOM elements with data-observe="pdf-viewer" attribute are observed and implemented.
+
+```js
+// app.js
+import 'pollen-pdf/resources/assets/src/js/partial/pdf-viewer.js'
+```
+
+#### Manual (advanced)
+```js
+import PdfViewer from 'pollen-pdf/resources/assets/src/js/partial/pdf-viewer.js'
+
+window.addEventListener('load', () => {
+  document.querySelectorAll('.pdfViewer').forEach(el => {
+    new PdfViewer(el, {/** custom option */})
+  })
+})
+```
