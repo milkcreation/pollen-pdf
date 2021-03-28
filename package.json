@@ -7,7 +7,9 @@
   },
   "author": "Jordy Manner",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "pdfjs-dist": "^2.7.570"
+  },
+  "dependencies": {
   }
 }

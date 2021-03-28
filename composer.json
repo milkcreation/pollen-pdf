@@ -10,7 +10,7 @@
     "writing",
     "html converter"
   ],
-  "time": "2021-03-21",
+  "time": "2021-03-28",
   "license": "MIT",
   "authors": [
     {
@@ -47,12 +47,8 @@
     }
   },
   "suggest": {
-    "knplabs/knp-snappy": "Library allowing PDF generation from url (snapshot).",
-    "h4cc/wkhtmltopdf-i386": "WkhHtml 32 bit KnpSnappy dependency PDF generation.",
-    "h4cc/wkhtmltopdf-amd64": "WkhHtml 64 bit KnpSnappy dependency PDF generation.",
     "pollen-solutions/container" : "Pollen Container Component - PSR-11 ready Dependencies Injection Container.",
-    "pollen-solutions/routing" : "Pollen Routing Component - HTTP request mapping and HTTP response resolution.",
-    "spatie/browsershot": "Convert a webpage to an image or pdf using headless Chrome."
+    "pollen-solutions/routing" : "Pollen Routing Component - HTTP request mapping and HTTP response resolution."
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
