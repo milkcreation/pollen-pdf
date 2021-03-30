@@ -152,11 +152,10 @@ abstract class AbstractPdfController extends BaseController implements PdfContro
 
         $response->setCallback(
             function () {
-                $stream = /*$this->storage() ? $this->store() :*/
-                    $this->driver()
-                        ->setRenderer([$this, 'getHtmlRenderer'])
-                        ->setConfig($this->getDriverOptions())
-                        ->stream();
+                $this->driver()->setRenderer([$this, 'getHtmlRenderer']);
+                $this->driver()->setConfig($this->getDriverOptions());
+
+                $stream = /*$this->storage() ? $this->store() :*/ $this->driver()->stream();
                 fpassthru($stream);
                 fclose($stream);
             }

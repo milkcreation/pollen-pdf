@@ -47,12 +47,10 @@ trait PdfProxy
      *
      * @param PdfInterface $pdf
      *
-     * @return PdfProxy|PdfProxyInterface|static
+     * @return void
      */
-    public function setPdf(PdfInterface $pdf): self
+    public function setPdf(PdfInterface $pdf): void
     {
         $this->pdf = $pdf;
-
-        return $this;
     }
 }
