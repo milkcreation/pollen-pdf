@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pollen\Pdf;
 
-use Psr\Container\ContainerInterface as Container;
+use Pollen\Support\StaticProxy;
 use RuntimeException;
 
 /**
@@ -26,16 +26,14 @@ trait PdfProxy
     public function pdf(): PdfInterface
     {
         if ($this->pdf === null) {
-            $container = method_exists($this, 'getContainer') ? $this->getContainer() : null;
-
-            if ($container instanceof Container && $container->has(PdfInterface::class)) {
-                $this->pdf = $container->get(PdfInterface::class);
-            } else {
-                try {
-                    $this->pdf = Pdf::getInstance();
-                } catch(RuntimeException $e) {
-                    $this->pdf = new Pdf();
-                }
+            try {
+                $this->pdf = Pdf::getInstance();
+            } catch (RuntimeException $e) {
+                $this->pdf = StaticProxy::getProxyInstance(
+                    PdfInterface::class,
+                    Pdf::class,
+                    method_exists($this, 'getContainer') ? $this->getContainer() : null
+                );
             }
         }
 
