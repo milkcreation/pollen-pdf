@@ -142,7 +142,7 @@ abstract class AbstractPdfController extends BaseController implements PdfContro
     public function responseDefault($disposition = 'inline'): StreamedResponseInterface
     {
         $response = new StreamedResponse();
-        $disposition = $response->headers->makeDisposition($disposition, $this->getFilename() . '.PDF');
+        $disposition = $response->headers->makeDisposition($disposition, $this->getFilename() . '.pdf');
         $response->headers->replace(
             [
                 'Content-Type'        => 'application/pdf',
