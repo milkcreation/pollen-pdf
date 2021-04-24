@@ -7,17 +7,17 @@ namespace Pollen\Pdf;
 use Pollen\Pdf\Partial\PdfViewerDriver;
 use Pollen\Support\Concerns\BootableTrait;
 use Pollen\Support\Concerns\ConfigBagAwareTrait;
-use Pollen\Support\Filesystem;
+use Pollen\Support\Concerns\ResourcesAwareTrait;
 use Pollen\Support\Proxy\ContainerProxy;
 use Pollen\Support\Proxy\PartialProxy;
 use Pollen\Support\Exception\ManagerRuntimeException;
 use Psr\Container\ContainerInterface as Container;
-use RuntimeException;
 
 class Pdf implements PdfInterface
 {
     use BootableTrait;
     use ConfigBagAwareTrait;
+    use ResourcesAwareTrait;
     use ContainerProxy;
     use PartialProxy;
 
@@ -26,12 +26,6 @@ class Pdf implements PdfInterface
      * @var static|null
      */
     private static $instance;
-
-    /**
-     * Chemin vers le répertoire des ressources.
-     * @var string|null
-     */
-    protected $resourcesBaseDir;
 
     /**
      * @param array $config
@@ -44,6 +38,8 @@ class Pdf implements PdfInterface
         if ($container !== null) {
             $this->setContainer($container);
         }
+
+        $this->setResourcesBaseDir(dirname(__DIR__) . '/resources');
 
         if ($this->config('boot_enabled', true)) {
             $this->boot();
@@ -83,36 +79,6 @@ class Pdf implements PdfInterface
             $this->setBooted();
             //events()->trigger('pdf.booted', [$this]);
         }
-
-        return $this;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function resources(?string $path = null): string
-    {
-        if ($this->resourcesBaseDir === null) {
-            $this->resourcesBaseDir = Filesystem::normalizePath(
-                realpath(
-                    dirname(__DIR__) . '/resources/'
-                )
-            );
-
-            if (!file_exists($this->resourcesBaseDir)) {
-                throw new RuntimeException('Gdpr ressources directory unreachable');
-            }
-        }
-
-        return is_null($path) ? $this->resourcesBaseDir : $this->resourcesBaseDir . Filesystem::normalizePath($path);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setResourcesBaseDir(string $resourceBaseDir): PdfInterface
-    {
-        $this->resourcesBaseDir = Filesystem::normalizePath($resourceBaseDir);
 
         return $this;
     }
