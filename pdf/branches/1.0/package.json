@@ -11,6 +11,7 @@
     "pdfjs-dist": "^2.7.570"
   },
   "dependencies": {
+    "@pollen-solutions/partial": "file:../partial/",
     "@pollen-solutions/support": "file:../support/"
   }
 }
