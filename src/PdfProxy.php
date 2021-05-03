@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pollen\Pdf;
 
-use Pollen\Support\StaticProxy;
+use Pollen\Support\ProxyResolver;
 use RuntimeException;
 
 /**
@@ -29,7 +29,7 @@ trait PdfProxy
             try {
                 $this->pdf = Pdf::getInstance();
             } catch (RuntimeException $e) {
-                $this->pdf = StaticProxy::getProxyInstance(
+                $this->pdf = ProxyResolver::getInstance(
                     PdfInterface::class,
                     Pdf::class,
                     method_exists($this, 'getContainer') ? $this->getContainer() : null
