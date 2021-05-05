@@ -5,10 +5,14 @@ import * as pdfjs from 'pdfjs-dist'
 import PdfjsWorker from 'pdfjs-dist/build/pdf.worker.js'
 import Observer from '@pollen-solutions/support/resources/assets/src/js/mutation-observer'
 
-if (PdfjsWorkerSrc !== undefined) {
+try {
   pdfjs.GlobalWorkerOptions.workerSrc = PdfjsWorkerSrc
-} else if (typeof window !== "undefined" && "Worker" in window) {
-  pdfjs.GlobalWorkerOptions.workerPort = new PdfjsWorker()
+} catch (e) {
+  /*if (typeof window !== "undefined" && "Worker" in window) {
+    pdfjs.GlobalWorkerOptions.workerPort = new PdfjsWorker()
+  } else {*/
+    pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@2.7.570/build/pdf.worker.min.js';
+  //}
 }
 
 class PdfViewer {
