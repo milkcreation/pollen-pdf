@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Pollen\Pdf;
 
-use Pollen\Container\BaseServiceProvider;
+use Pollen\Container\BootableServiceProvider;
 use Pollen\Partial\PartialManagerInterface;
 use Pollen\Pdf\Drivers\DompdfDriver;
 use Pollen\Pdf\Partial\PdfViewerDriver;
 
-class PdfServiceProvider extends BaseServiceProvider
+class PdfServiceProvider extends BootableServiceProvider
 {
     /**
      * @var string[]
