@@ -9,6 +9,7 @@ use Pollen\Http\StreamedResponse;
 use Pollen\Http\StreamedResponseInterface;
 use Pollen\Pdf\Drivers\DompdfDriver;
 use Pollen\Routing\BaseController;
+use Pollen\Support\Str;
 
 abstract class AbstractPdfController extends BaseController implements PdfControllerInterface
 {
@@ -142,7 +143,7 @@ abstract class AbstractPdfController extends BaseController implements PdfContro
     public function responseDefault($disposition = 'inline'): StreamedResponseInterface
     {
         $response = new StreamedResponse();
-        $disposition = $response->headers->makeDisposition($disposition, $this->getFilename() . '.pdf');
+        $disposition = $response->headers->makeDisposition($disposition, Str::ascii($this->getFilename()) . '.pdf');
         $response->headers->replace(
             [
                 'Content-Type'        => 'application/pdf',
